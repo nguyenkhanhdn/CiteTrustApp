@@ -1,0 +1,105 @@
+﻿@model IEnumerable<CiteTrustApp.Models.Evidence>
+@{
+    ViewBag.Title = "Tìm kiếm dẫn chứng";
+    var categories = ViewBag.Categories as List<CiteTrustApp.Models.Category> ?? new List<CiteTrustApp.Models.Category>();
+    var sources = ViewBag.Sources as List<CiteTrustApp.Models.Source> ?? new List<CiteTrustApp.Models.Source>();
+}
+<div class="container my-4">
+    <div class="card p-4 mb-4">
+        <div class="row">
+            <div class="col-md-8 mb-2">
+                <input id="qInput" class="form-control" placeholder="Tìm kiếm dẫn chứng, tác giả..." />
+            </div>
+            <div class="col-md-4 mb-2">
+                <select id="sourceSelect" class="form-control">
+                    <option value="">Tất cả nguồn</option>
+                    @foreach (var s in sources)
+                    {
+                        <option value="@s.Id">@s.Title</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <div id="categoryButtons" class="d-flex flex-wrap">
+                <button class="btn btn-sm btn-primary mr-2 mb-2 category-btn" data-category="">Tất cả</button>
+                @foreach (var c in categories)
+                {
+                    <button class="btn btn-sm btn-outline-secondary mr-2 mb-2 category-btn" data-category="@c.Id">@c.Name</button>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div id="results" class="row">
+        @foreach (var ev in Model)
+        {
+            @Html.Partial("_EvidenceCard", ev)
+        }
+    </div>
+
+    <div id="noResults" class="alert alert-light" style="display:none;">
+        Không tìm thấy kết quả.
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        (function () {
+            var searchTimeout;
+            function performSearch() {
+                var q = $('#qInput').val();
+                var categoryId = $('.category-btn.active').data('category');
+                var sourceId = $('#sourceSelect').val();
+
+                $.get('@Url.Action("SearchAjax", "Evidence")', { q: q, categoryId: categoryId, sourceId: sourceId })
+                    .done(function (res) {
+                        $('#results').html(res.html);
+                        if (!res.html || res.html.trim() === '') {
+                            $('#noResults').show();
+                        } else {
+                            $('#noResults').hide();
+                        }
+                    });
+            }
+
+            // debounce input
+            $('#qInput').on('input', function () {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(performSearch, 350);
+            });
+
+            // source change
+            $('#sourceSelect').on('change', performSearch);
+
+            // category buttons
+            $('#categoryButtons').on('click', '.category-btn', function () {
+                $('.category-btn').removeClass('active btn-primary').addClass('btn-outline-secondary');
+                $(this).removeClass('btn-outline-secondary').addClass('active btn-primary');
+                performSearch();
+            });
+
+            // copy handler (delegated)
+            $('body').on('click', '.copy-citation-btn', function () {
+                var text = $(this).data('citation') || '';
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text);
+                } else {
+                    var ta = document.createElement('textarea');
+                    ta.value = text;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    try { document.execCommand('copy'); } catch (e) { }
+                    document.body.removeChild(ta);
+                }
+                $(this).text('Đã chép');
+                var btn = $(this);
+                setTimeout(function () { btn.text('Chép trích dẫn'); }, 1500);
+            });
+
+            // initialize - highlight "Tất cả" button
+            $('#categoryButtons .category-btn').first().addClass('active btn-primary').removeClass('btn-outline-secondary');
+        })();
+    </script>
+}

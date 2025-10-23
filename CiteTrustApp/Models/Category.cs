@@ -1,27 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-
 namespace CiteTrustApp.Models
 {
-    public class Category
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+
+    public partial class Category
     {
-        [Key]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Category()
+        {
+            Evidences = new HashSet<Evidence>();
+        }
+
         public int Id { get; set; }
-        [Required(ErrorMessage = "Loại được để trống")]
-        [Display(Name = "Loại")]
+
+        [Required]
+        [StringLength(100)]
         public string Name { get; set; }
-        [Display(Name = "Mô tả")]
-        [Required(ErrorMessage = "Mô tả được để trống")]
+
+        [StringLength(255)]
         public string Description { get; set; }
-        [Display(Name = "Hình ảnh")]
-        [Required(ErrorMessage = "Hình ảnh được để trống")]
-        public string ImageUrl { get; set; }
 
-        //Collection of Evidences
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Evidence> Evidences { get; set; }
-
     }
 }

@@ -1,31 +1,47 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
 namespace CiteTrustApp.Models
 {
-    public class Evidence
-    {
-        public int Id { get; set; }
-        [Required(ErrorMessage = "Vui lòng nhập nội dung bằng chứng.")]
-        [Display(Name ="Nội dung bằng chứng")]
-        public string Content { get; set; }
-        [Required(ErrorMessage = "Vui lòng nhập loại bằng chứng.")]
-        [Display(Name = "Loại bằng chứng")]
-        public string Type { get; set; }
-        [Required(ErrorMessage = "Vui lòng chọn nguồn bằng chứng.")]
-        [Display(Name = "Nguồn bằng chứng")]
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
 
-        public int SourceId { get; set; }
-        public virtual Source Source { get; set; }
-        [Required(ErrorMessage = "Vui lòng chọn loại bằng chứng.")]
-        [Display(Name = "Loại bằng chứng")]
-        public int CategoryId { get; set; }
+    public partial class Evidence
+    {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Evidence()
+        {
+            Citations = new HashSet<Citation>();
+            CollectionItems = new HashSet<CollectionItem>();
+        }
+
+        public int Id { get; set; }
+
+        public string Content { get; set; }
+
+        [StringLength(50)]
+        public string Type { get; set; }
+
+        public int? SourceId { get; set; }
+
+        public int? CategoryId { get; set; }
+
+
+        [ForeignKey("User")]
+        public int? CreatedBy { get; set; }
+
+        public virtual User User { get; set; }
+
+   
+        public DateTime? CreatedAt { get; set; }
+
         public virtual Category Category { get; set; }
-        [Required(ErrorMessage = "Vui lòng nhập thẻ cho bằng chứng.")]
-        [Display(Name = "Tags")]
-        public string Tags { get; set; }
-        [Display(Name = "Ngày tạo")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
-        public DateTime Created { get; set; } = DateTime.Now;
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Citation> Citations { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CollectionItem> CollectionItems { get; set; }
+        public virtual Source Source { get; set; }
     }
 }

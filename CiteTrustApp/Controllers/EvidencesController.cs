@@ -12,12 +12,12 @@ namespace CiteTrustApp.Controllers
 {
     public class EvidencesController : Controller
     {
-        private CTSDbContext db = new CTSDbContext();
+        private AcademicEvidenceModel db = new AcademicEvidenceModel();
 
         // GET: Evidences
         public ActionResult Index()
         {
-            var evidences = db.Evidences.Include(e => e.Category).Include(e => e.Source);
+            var evidences = db.Evidences.Include(e => e.Category).Include(e => e.Source).Include(e => e.User);
             return View(evidences.ToList());
         }
 
@@ -41,6 +41,7 @@ namespace CiteTrustApp.Controllers
         {
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
             ViewBag.SourceId = new SelectList(db.Sources, "Id", "Title");
+            ViewBag.CreatedBy = new SelectList(db.Users, "Id", "FullName");
             return View();
         }
 
@@ -49,7 +50,7 @@ namespace CiteTrustApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Content,Type,SourceId,CategoryId,Tags,Created")] Evidence evidence)
+        public ActionResult Create([Bind(Include = "Id,Content,Type,SourceId,CategoryId,CreatedBy,CreatedAt")] Evidence evidence)
         {
             if (ModelState.IsValid)
             {
@@ -60,6 +61,7 @@ namespace CiteTrustApp.Controllers
 
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", evidence.CategoryId);
             ViewBag.SourceId = new SelectList(db.Sources, "Id", "Title", evidence.SourceId);
+            ViewBag.CreatedBy = new SelectList(db.Users, "Id", "FullName", evidence.CreatedBy);
             return View(evidence);
         }
 
@@ -77,6 +79,7 @@ namespace CiteTrustApp.Controllers
             }
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", evidence.CategoryId);
             ViewBag.SourceId = new SelectList(db.Sources, "Id", "Title", evidence.SourceId);
+            ViewBag.CreatedBy = new SelectList(db.Users, "Id", "FullName", evidence.CreatedBy);
             return View(evidence);
         }
 
@@ -85,7 +88,7 @@ namespace CiteTrustApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Content,Type,SourceId,CategoryId,Tags,Created")] Evidence evidence)
+        public ActionResult Edit([Bind(Include = "Id,Content,Type,SourceId,CategoryId,CreatedBy,CreatedAt")] Evidence evidence)
         {
             if (ModelState.IsValid)
             {
@@ -95,6 +98,7 @@ namespace CiteTrustApp.Controllers
             }
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", evidence.CategoryId);
             ViewBag.SourceId = new SelectList(db.Sources, "Id", "Title", evidence.SourceId);
+            ViewBag.CreatedBy = new SelectList(db.Users, "Id", "FullName", evidence.CreatedBy);
             return View(evidence);
         }
 

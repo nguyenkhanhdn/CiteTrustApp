@@ -1,37 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-
 namespace CiteTrustApp.Models
 {
-    public class Source
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+
+    public partial class Source
     {
-        [Key]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Source()
+        {
+            Evidences = new HashSet<Evidence>();
+        }
+
         public int Id { get; set; }
-        [Required(ErrorMessage = "Tiêu đề được để trống")]
-        [Display(Name = "Tiêu đề")]
+
+        [Required]
+        [StringLength(200)]
         public string Title { get; set; }
-        [Display(Name = "Tác giả")]
-        [Required(ErrorMessage = "Tác giả được để trống")]
+
+        [StringLength(100)]
         public string Author { get; set; }
-        [Display(Name = "Năm")]
-        [Required(ErrorMessage = "Năm được để trống")]
-        public int Year { get; set; }
-        [Display(Name = "Nhà xuất bản")]
-        [Required(ErrorMessage = "Nhà xuất bản được để trống")]
-        public int Publisher { get; set; }
-        [Display(Name = "URL")]
-        [Required(ErrorMessage = "URL được để trống")]
+
+        public int? Year { get; set; }
+
+        [StringLength(100)]
+        public string Publisher { get; set; }
+
+        [StringLength(255)]
         public string Url { get; set; }
-        [Display(Name = "Điểm tin cậy")]
-        [Required(ErrorMessage = "Điểm tin cậy được để trống")]
-        public int Credi_score { get; set; }
 
-        //Collection of Evidences
+        public decimal? CreditScore { get; set; }
+
+        [StringLength(50)]
+        public string SourceType { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Evidence> Evidences { get; set; }
-
-
     }
 }

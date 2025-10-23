@@ -5,10 +5,10 @@
     Layout = "~/Views/Shared/_LayoutAd.cshtml";
 }
 
-<h2>DANH MỤC EVIDENCES</h2>
+<h2>Danh sách Dẫn chứng</h2>
 
 <p>
-    @Html.ActionLink("Thêm mới", "Create")
+    @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table datatable">
     <thead>
@@ -20,16 +20,16 @@
                 @Html.DisplayNameFor(model => model.Source.Title)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.User.FullName)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Content)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Type)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Tags)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Created)
+                @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
             <th></th>
         </tr>
@@ -45,21 +45,21 @@
                     @Html.DisplayFor(modelItem => item.Source.Title)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.User.FullName)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Content)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Type)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Tags)
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Created)
-                </td>
-                <td>
-                    @Html.ActionLink("Sửa","Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Chi tiết", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Xóa", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>
             </tr>
         }

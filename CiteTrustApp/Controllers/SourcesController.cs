@@ -12,7 +12,7 @@ namespace CiteTrustApp.Controllers
 {
     public class SourcesController : Controller
     {
-        private CTSDbContext db = new CTSDbContext();
+        private AcademicEvidenceModel db = new AcademicEvidenceModel();
 
         // GET: Sources
         public ActionResult Index()
@@ -46,7 +46,7 @@ namespace CiteTrustApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Author,Year,Publisher,Url,Credi_score")] Source source)
+        public ActionResult Create([Bind(Include = "Id,Title,Author,Year,Publisher,Url,CreditScore,SourceType")] Source source)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace CiteTrustApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Author,Year,Publisher,Url,Credi_score")] Source source)
+        public ActionResult Edit([Bind(Include = "Id,Title,Author,Year,Publisher,Url,CreditScore,SourceType")] Source source)
         {
             if (ModelState.IsValid)
             {

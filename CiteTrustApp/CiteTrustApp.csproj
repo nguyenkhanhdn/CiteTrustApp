@@ -56,6 +56,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -171,9 +173,14 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CitationsController.cs" />
+    <Compile Include="Controllers\CollectionItemsController.cs" />
+    <Compile Include="Controllers\CollectionsController.cs" />
+    <Compile Include="Controllers\EvidenceController.cs" />
     <Compile Include="Controllers\EvidencesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SearchLogsController.cs" />
     <Compile Include="Controllers\SourcesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -190,25 +197,68 @@
     <Compile Include="Migrations\202510220631247_ba.Designer.cs">
       <DependentUpon>202510220631247_ba.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510220943391_bon.cs" />
+    <Compile Include="Migrations\202510220943391_bon.Designer.cs">
+      <DependentUpon>202510220943391_bon.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Citation.cs" />
+    <Compile Include="Models\Collection.cs" />
+    <Compile Include="Models\CollectionItem.cs" />
     <Compile Include="Models\CTSDbContext.cs" />
     <Compile Include="Models\Evidence.cs" />
+    <Compile Include="Models\EvidenceAnalysisViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\AcademicEvidenceModel.cs" />
+    <Compile Include="Models\SearchLog.cs" />
     <Compile Include="Models\Source.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\style.css" />
+    <Content Include="assets\css\style02.css" />
+    <Content Include="assets\img\about.jpg" />
     <Content Include="assets\img\apple-touch-icon.png" />
+    <Content Include="assets\img\blog\blog-1.jpg" />
+    <Content Include="assets\img\blog\blog-2.jpg" />
+    <Content Include="assets\img\blog\blog-3.jpg" />
+    <Content Include="assets\img\blog\blog-4.jpg" />
+    <Content Include="assets\img\blog\blog-author.jpg" />
+    <Content Include="assets\img\blog\blog-inside-post.jpg" />
+    <Content Include="assets\img\blog\blog-recent-1.jpg" />
+    <Content Include="assets\img\blog\blog-recent-2.jpg" />
+    <Content Include="assets\img\blog\blog-recent-3.jpg" />
+    <Content Include="assets\img\blog\blog-recent-4.jpg" />
+    <Content Include="assets\img\blog\blog-recent-5.jpg" />
+    <Content Include="assets\img\blog\comments-1.jpg" />
+    <Content Include="assets\img\blog\comments-2.jpg" />
+    <Content Include="assets\img\blog\comments-3.jpg" />
+    <Content Include="assets\img\blog\comments-4.jpg" />
+    <Content Include="assets\img\blog\comments-5.jpg" />
+    <Content Include="assets\img\blog\comments-6.jpg" />
     <Content Include="assets\img\card.jpg" />
     <Content Include="assets\img\cite.png" />
     <Content Include="assets\img\cite2.png" />
     <Content Include="assets\img\cite64.png" />
+    <Content Include="assets\img\clients\client-1.png" />
+    <Content Include="assets\img\clients\client-2.png" />
+    <Content Include="assets\img\clients\client-3.png" />
+    <Content Include="assets\img\clients\client-4.png" />
+    <Content Include="assets\img\clients\client-5.png" />
+    <Content Include="assets\img\clients\client-6.png" />
+    <Content Include="assets\img\clients\client-7.png" />
+    <Content Include="assets\img\clients\client-8.png" />
     <Content Include="assets\img\favicon.png" />
+    <Content Include="assets\img\features-1.jpg" />
+    <Content Include="assets\img\features-2.jpg" />
+    <Content Include="assets\img\features-3.jpg" />
+    <Content Include="assets\img\features-4.jpg" />
+    <Content Include="assets\img\hero-bg.jpg" />
     <Content Include="assets\img\logo.png" />
     <Content Include="assets\img\messages-1.jpg" />
     <Content Include="assets\img\messages-2.jpg" />
@@ -219,17 +269,56 @@
     <Content Include="assets\img\news-4.jpg" />
     <Content Include="assets\img\news-5.jpg" />
     <Content Include="assets\img\not-found.svg" />
+    <Content Include="assets\img\portfolio\portfolio-1.jpg" />
+    <Content Include="assets\img\portfolio\portfolio-2.jpg" />
+    <Content Include="assets\img\portfolio\portfolio-3.jpg" />
+    <Content Include="assets\img\portfolio\portfolio-4.jpg" />
+    <Content Include="assets\img\portfolio\portfolio-5.jpg" />
+    <Content Include="assets\img\portfolio\portfolio-6.jpg" />
+    <Content Include="assets\img\portfolio\portfolio-7.jpg" />
+    <Content Include="assets\img\portfolio\portfolio-8.jpg" />
+    <Content Include="assets\img\portfolio\portfolio-9.jpg" />
+    <Content Include="assets\img\portfolio\portfolio-details-1.jpg" />
+    <Content Include="assets\img\portfolio\portfolio-details-2.jpg" />
+    <Content Include="assets\img\portfolio\portfolio-details-3.jpg" />
     <Content Include="assets\img\product-1.jpg" />
     <Content Include="assets\img\product-2.jpg" />
     <Content Include="assets\img\product-3.jpg" />
     <Content Include="assets\img\product-4.jpg" />
     <Content Include="assets\img\product-5.jpg" />
     <Content Include="assets\img\profile-img.jpg" />
+    <Content Include="assets\img\skills-img.jpg" />
+    <Content Include="assets\img\slide.png" />
+    <Content Include="assets\img\slide02.png" />
+    <Content Include="assets\img\slide03.png" />
+    <Content Include="assets\img\slider.jpeg" />
     <Content Include="assets\img\slides-1.jpg" />
     <Content Include="assets\img\slides-2.jpg" />
     <Content Include="assets\img\slides-3.jpg" />
+    <Content Include="assets\img\team\team-1.jpg" />
+    <Content Include="assets\img\team\team-2.jpg" />
+    <Content Include="assets\img\team\team-3.jpg" />
+    <Content Include="assets\img\team\team-4.jpg" />
+    <Content Include="assets\img\team\team-5.jpg" />
+    <Content Include="assets\img\team\team-6.jpg" />
+    <Content Include="assets\img\testimonials\testimonials-1.jpg" />
+    <Content Include="assets\img\testimonials\testimonials-2.jpg" />
+    <Content Include="assets\img\testimonials\testimonials-3.jpg" />
+    <Content Include="assets\img\testimonials\testimonials-4.jpg" />
+    <Content Include="assets\img\testimonials\testimonials-5.jpg" />
+    <Content Include="assets\img\testimonials\testimonials-6.jpg" />
+    <Content Include="assets\img\work-process-1.png" />
+    <Content Include="assets\img\work-process-2.png" />
+    <Content Include="assets\img\work-process-3.png" />
+    <Content Include="assets\img\work-process-4.png" />
+    <Content Include="assets\js\evidence.js" />
     <Content Include="assets\js\main.js" />
+    <Content Include="assets\js\main02.js" />
     <Content Include="assets\scss\Readme.txt" />
+    <Content Include="assets\vendor\aos\aos.cjs.js" />
+    <Content Include="assets\vendor\aos\aos.css" />
+    <Content Include="assets\vendor\aos\aos.esm.js" />
+    <Content Include="assets\vendor\aos\aos.js" />
     <Content Include="assets\vendor\apexcharts\apexcharts.amd.js" />
     <Content Include="assets\vendor\apexcharts\apexcharts.common.js" />
     <Content Include="assets\vendor\apexcharts\apexcharts.css" />
@@ -287,7 +376,14 @@
     <Content Include="assets\vendor\echarts\extension\bmap.min.js" />
     <Content Include="assets\vendor\echarts\extension\dataTool.js" />
     <Content Include="assets\vendor\echarts\extension\dataTool.min.js" />
+    <Content Include="assets\vendor\glightbox\css\glightbox.css" />
+    <Content Include="assets\vendor\glightbox\css\glightbox.min.css" />
+    <Content Include="assets\vendor\glightbox\js\glightbox.js" />
+    <Content Include="assets\vendor\glightbox\js\glightbox.min.js" />
+    <Content Include="assets\vendor\isotope-layout\isotope.pkgd.js" />
+    <Content Include="assets\vendor\isotope-layout\isotope.pkgd.min.js" />
     <Content Include="assets\vendor\php-email-form\validate.js" />
+    <Content Include="assets\vendor\purecounter\purecounter_vanilla.js" />
     <Content Include="assets\vendor\quill\quill.bubble.css" />
     <Content Include="assets\vendor\quill\quill.core.css" />
     <Content Include="assets\vendor\quill\quill.core.js" />
@@ -300,6 +396,8 @@
     <Content Include="assets\vendor\remixicon\remixicon.symbol.svg" />
     <Content Include="assets\vendor\simple-datatables\simple-datatables.js" />
     <Content Include="assets\vendor\simple-datatables\style.css" />
+    <Content Include="assets\vendor\swiper\swiper-bundle.min.css" />
+    <Content Include="assets\vendor\swiper\swiper-bundle.min.js" />
     <Content Include="assets\vendor\tinymce\icons\default\icons.js" />
     <Content Include="assets\vendor\tinymce\icons\default\icons.min.js" />
     <Content Include="assets\vendor\tinymce\icons\default\index.js" />
@@ -507,6 +605,7 @@
     <Content Include="assets\vendor\tinymce\themes\silver\theme.min.js" />
     <Content Include="assets\vendor\tinymce\tinymce.js" />
     <Content Include="assets\vendor\tinymce\tinymce.min.js" />
+    <Content Include="assets\vendor\waypoints\noframework.waypoints.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -638,6 +737,9 @@
     <Content Include="assets\vendor\tinymce\license.md" />
     <Content Include="assets\vendor\tinymce\package.json" />
     <Content Include="assets\vendor\tinymce\README.md" />
+    <Content Include="assets\vendor\aos\aos.js.map" />
+    <Content Include="assets\vendor\purecounter\purecounter_vanilla.js.map" />
+    <Content Include="assets\vendor\swiper\swiper-bundle.min.js.map" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -649,6 +751,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="TextFile1.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -688,19 +791,44 @@
     <Content Include="Views\Categories\Details.cshtml" />
     <Content Include="Views\Categories\Edit.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout - Copy.cshtml" />
+    <Content Include="Views\Shared\_LayoutAd.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Sources\Create.cshtml" />
     <Content Include="Views\Sources\Delete.cshtml" />
     <Content Include="Views\Sources\Details.cshtml" />
     <Content Include="Views\Sources\Edit.cshtml" />
     <Content Include="Views\Sources\Index.cshtml" />
-    <Content Include="Views\Shared\_Layout - Copy.cshtml" />
-    <Content Include="Views\Shared\_LayoutAd.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Evidences\Create.cshtml" />
     <Content Include="Views\Evidences\Delete.cshtml" />
     <Content Include="Views\Evidences\Details.cshtml" />
     <Content Include="Views\Evidences\Edit.cshtml" />
     <Content Include="Views\Evidences\Index.cshtml" />
+    <Content Include="Views\Citations\Create.cshtml" />
+    <Content Include="Views\Citations\Delete.cshtml" />
+    <Content Include="Views\Citations\Details.cshtml" />
+    <Content Include="Views\Citations\Edit.cshtml" />
+    <Content Include="Views\Citations\Index.cshtml" />
+    <Content Include="Views\Collections\Create.cshtml" />
+    <Content Include="Views\Collections\Delete.cshtml" />
+    <Content Include="Views\Collections\Details.cshtml" />
+    <Content Include="Views\Collections\Edit.cshtml" />
+    <Content Include="Views\Collections\Index.cshtml" />
+    <Content Include="Views\CollectionItems\Create.cshtml" />
+    <Content Include="Views\CollectionItems\Delete.cshtml" />
+    <Content Include="Views\CollectionItems\Details.cshtml" />
+    <Content Include="Views\CollectionItems\Edit.cshtml" />
+    <Content Include="Views\CollectionItems\Index.cshtml" />
+    <Content Include="Views\SearchLogs\Create.cshtml" />
+    <Content Include="Views\SearchLogs\Delete.cshtml" />
+    <Content Include="Views\SearchLogs\Details.cshtml" />
+    <Content Include="Views\SearchLogs\Edit.cshtml" />
+    <Content Include="Views\SearchLogs\Index.cshtml" />
+    <Content Include="Views\Evidence\Index.cshtml" />
+    <Content Include="Views\Evidence\_EvidenceCard.cshtml" />
+    <Content Include="Views\Evidence\Index - Copy.cshtml" />
+    <Content Include="Views\Evidence\_EvidenceAnalysis.cshtml" />
+    <Content Include="Views\Shared\_LayoutNoHero.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -741,6 +869,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202510220631247_ba.resx">
       <DependentUpon>202510220631247_ba.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510220943391_bon.resx">
+      <DependentUpon>202510220943391_bon.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

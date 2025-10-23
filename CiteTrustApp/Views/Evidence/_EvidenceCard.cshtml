@@ -1,0 +1,57 @@
+﻿@model CiteTrustApp.Models.Evidence
+@using System.Text
+@{
+    // Choose displayed citation text: prefer explicit Citation entity, fallback to formatted Source + year
+    var citation = Model.Citations != null ? Model.Citations.FirstOrDefault() : null;
+    string citationText = null;
+    if (citation != null && !string.IsNullOrWhiteSpace(citation.CitationText))
+    {
+        citationText = citation.CitationText;
+    }
+    else if (Model.Source != null)
+    {
+        var sb = new StringBuilder();
+        if (!string.IsNullOrWhiteSpace(Model.Content))
+        {
+            // take a short excerpt for display (not for copy)
+        }
+        sb.Append(Model.Source.Title);
+        if (Model.Source.Year.HasValue)
+        {
+            sb.Append($", {Model.Source.Year.Value}");
+        }
+        citationText = sb.ToString();
+    }
+    else
+    {
+        citationText = Model.Content ?? "";
+    }
+
+    string excerpt = Model.Content ?? "";
+    if (excerpt.Length > 240) {
+        excerpt = excerpt.Substring(0, 240).Trim() + "...";
+    }
+}
+
+<div class="col-md-6 col-lg-4 mb-4">
+    <div class="card h-100 shadow-sm">
+        <div class="card-body d-flex flex-column">
+
+            @if (Model.Category != null)
+            {
+                <span class="badge badge-pill badge-info">@Model.Category.Name</span>
+            }
+            <div class="evidence-card">
+                <blockquote class="blockquote mt-2">
+                    <p class="mb-0 evidence-content">@Html.Raw(Html.Encode(excerpt))</p>
+                    <footer class="evidence-citation blockquote-footer mt-2">@Html.Raw(Html.Encode(citationText))</footer>
+                </blockquote>
+
+                <div class="evidence-actions">
+                    <button type="button" class="btn btn-outline-secondary copy-citation">Chép trích dẫn</button>
+                    <button type="button" class="btn btn-primary btn-primary btn-sm analyze">Phân tích với AI</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
