@@ -15,6 +15,8 @@ namespace CiteTrustApp.Models
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<Evidence> Evidences { get; set; }
-
+        // Added to support logging user searches and basic user lookup
+        public DbSet<User> Users { get; set; }
+        public DbSet<SearchLog> SearchLogs { get; set; }
     }
 }

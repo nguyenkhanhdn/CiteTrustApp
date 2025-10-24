@@ -4,10 +4,6 @@
     var categories = ViewBag.Categories as List<CiteTrustApp.Models.Category> ?? new List<CiteTrustApp.Models.Category>();
     var sources = ViewBag.Sources as List<CiteTrustApp.Models.Source> ?? new List<CiteTrustApp.Models.Source>();
     Layout = "~/Views/Shared/_LayoutNoHero.cshtml";
-
-    var currentPage = ViewBag.Page as int? ?? 1;
-    var pageSize = ViewBag.PageSize as int? ?? 12;
-    var totalCount = ViewBag.TotalCount as int? ?? 0;
 }
 
 <section id="breadcrumbs" class="breadcrumbs">
@@ -55,72 +51,79 @@
         }
     </div>
 
-    <div id="noResults" class="alert alert-light" style="display:@(totalCount == 0 ? "block" : "none")">
+    <div id="noResults" class="alert alert-light" style="display:none;">
         Không tìm thấy kết quả.
     </div>
+</div>
 
-    <div id="paginationContainer" class="mt-3">
-        @Html.Partial("_Pagination")
+
+<!-- Modal for AI analysis -->
+<div class="modal fade" id="analysisModal" tabindex="-1" role="dialog" aria-labelledby="analysisModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="analysisModalLabel" class="modal-title">Phân tích</h5>.
+                <button type="button" id="btnClose" onclick="doClose()" class="close" data-bs-dismiss="modal" aria-label="Đóng">
+                    <span aria-hidden="true">X</span>
+                </button>
+                
+            </div>
+            <div id="analysisModalBody" class="modal-body">
+                <div class="text-center p-4">
+                    <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="mt-2">Đang phân tích...</div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
     </div>
 </div>
+
 @section scripts {
     <script>
 
-        function doClose() {
+        function doClose() {            
             var modal = $('#aiAnalysisModal');
             if (modal.length) {
                 modal.modal('hide');
             }
         }
         (function () {
-    var searchTimeout;
-    var currentPage = @(currentPage);
-    var pageSize = @(pageSize);
+            var searchTimeout;
+            function performSearch() {
+                var q = $('#qInput').val();
+                var categoryId = $('.category-btn.active').data('category');
+                var sourceId = $('#sourceSelect').val();
 
-    function performSearch(page) {
-        page = page || 1;
-        var q = $('#qInput').val();
-        var categoryId = $('.category-btn.active').data('category');
-        var sourceId = $('#sourceSelect').val();
+                $.get('@Url.Action("SearchAjax", "Evidence")', { q: q, categoryId: categoryId, sourceId: sourceId })
+                    .done(function (res) {
+                        $('#results').html(res.html);
+                        if (!res.html || res.html.trim() === '') {
+                            $('#noResults').show();
+                        } else {
+                            $('#noResults').hide();
+                        }
+                    });
+            }
 
-        $.get('@Url.Action("SearchAjax", "Evidence")', { q: q, categoryId: categoryId, sourceId: sourceId, page: page, pageSize: pageSize })
-            .done(function (res) {
-                $('#results').html(res.html);
-                $('#paginationContainer').html(res.paginationHtml || '');
-                if (!res.html || res.html.trim() === '') {
-                    $('#noResults').show();
-                } else {
-                    $('#noResults').hide();
-                }
-                currentPage = page;
+            // debounce input
+            $('#qInput').on('input', function () {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(performSearch, 350);
             });
-    }
 
-    // debounce input
-    $('#qInput').on('input', function () {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(function () { performSearch(1); }, 350);
-    });
+            // source change
+            $('#sourceSelect').on('change', performSearch);
 
-    // source change
-    $('#sourceSelect').on('change', function () { performSearch(1); });
-
-    // category buttons
-    $('#categoryButtons').on('click', '.category-btn', function () {
-        $('.category-btn').removeClass('active btn-primary').addClass('btn-outline-secondary');
-        $(this).removeClass('btn-outline-secondary').addClass('active btn-primary');
-        performSearch(1);
-    });
-
-    // pagination click (delegated)
-    $('body').on('click', '.page-link-go', function (e) {
-        e.preventDefault();
-        var page = parseInt($(this).data('page') || 1, 10);
-        if (!page || page < 1) page = 1;
-        performSearch(page);
-        // scroll to top of results
-        $('html, body').animate({ scrollTop: $('#results').offset().top - 80 }, 300);
-    });
+            // category buttons
+            $('#categoryButtons').on('click', '.category-btn', function () {
+                $('.category-btn').removeClass('active btn-primary').addClass('btn-outline-secondary');
+                $(this).removeClass('btn-outline-secondary').addClass('active btn-primary');
+                performSearch();
+            });
 
             // copy handler (delegated)
             $('body').on('click', '.copy-citation-btn', function () {
@@ -176,10 +179,10 @@
                 setTimeout(function () { btn.text('Chép trích dẫn'); }, 1500);
             });
 
-
+            
             // initialize - highlight "Tất cả" button
             $('#categoryButtons .category-btn').first().addClass('active btn-primary').removeClass('btn-outline-secondary');
-
+            
 
         })();
     </script>
@@ -187,36 +190,31 @@
 
 @section styles {
     <style>
-
-        #paginationContainer .pagination {
-            justify-content: center !important;
-        }
-
         #analysisModal .modal-header {
             position: relative;
             padding-right: 3rem; /* make room for absolute close */
             align-items: center;
         }
 
-        #analysisModal .modal-header .modal-title {
-            margin: 0;
-        }
+            #analysisModal .modal-header .modal-title {
+                margin: 0;
+            }
 
-        #analysisModal .modal-header .close, .close {
-            position: absolute;
-            right: 1rem;
-            top: 0.75rem;
-            border: none;
-            background: transparent;
-            font-size: 1.25rem;
-            line-height: 1;
-            padding: 0.25rem;
-            color: inherit;
-        }
+            #analysisModal .modal-header .close,.close{
+                position: absolute;
+                right: 1rem;
+                top: 0.75rem;
+                border: none;
+                background: transparent;
+                font-size: 1.25rem;
+                line-height: 1;
+                padding: 0.25rem;
+                color: inherit;
+            }
 
-        #analysisModal .modal-header .close:focus, .close:focus {
-            outline: solid;
-            box-shadow: none;
-        }
+                #analysisModal .modal-header .close:focus, .close:focus {
+                    outline: solid;
+                    box-shadow: none;
+                }
     </style>
 }
