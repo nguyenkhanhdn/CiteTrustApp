@@ -73,12 +73,18 @@ namespace CiteTrustApp.Controllers
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
+            // sign in
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
+                    // after successful sign-in, check whether user completed onboarding
+                    var appUser = await UserManager.FindByNameAsync(model.Email);
+                    if (appUser != null && !appUser.IsOnboarded)
+                    {
+                        // redirect to onboarding selection
+                        return RedirectToAction("Index", "Onboarding");
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -392,7 +398,7 @@ namespace CiteTrustApp.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Admin");
+            return RedirectToAction("Index", "Home");
         }
 
         //

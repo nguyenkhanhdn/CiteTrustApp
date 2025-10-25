@@ -1,0 +1,50 @@
+﻿@model CiteTrustApp.Models.SuggestionViewModel
+@{
+    var interests = ViewBag.UserInterests as List<CiteTrustApp.Models.Category> ?? new List<CiteTrustApp.Models.Category>();
+}
+
+<div class="card mb-3">
+    <div class="card-body">
+        @if (interests.Any())
+        {
+            <h5 class="card-title">Lĩnh vực bạn quan tâm</h5>
+            <div class="mb-2">
+                @foreach (var c in interests)
+                {
+                    <span class="badge bg-primary text-white me-1 mb-1">@c.Name</span>
+                }
+            </div>
+        }
+        else
+        {
+            <h5 class="card-title">Gợi ý lĩnh vực</h5>
+            <p class="text-muted">Chọn lĩnh vực quan tâm để nhận gợi ý trích dẫn được cá nhân hóa.</p>
+            <a class="btn btn-sm btn-outline-primary" href="~/Onboarding/Index">Chọn lĩnh vực</a>
+        }
+
+        @if (Model != null && Model.Suggestions != null && Model.Suggestions.Any())
+        {
+            <hr />
+            <h6>Gợi ý trích dẫn theo lĩnh vực</h6>
+            <div class="list-group">
+                @foreach (var s in Model.Suggestions)
+                {
+                    <div class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="me-3" style="min-width:0; flex:1;">
+                            <div class="small text-muted" style="white-space:pre-wrap;">@s</div>
+                        </div>
+                        <div class="ms-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary copy-citation-btn" data-citation="@Html.Raw(HttpUtility.HtmlEncode(s))">
+                                Chép dẫn chứng
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-muted small mt-2">Không có gợi ý trích dẫn cho lĩnh vực này.</div>
+        }
+    </div>
+</div>

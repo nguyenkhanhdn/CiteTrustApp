@@ -176,31 +176,25 @@
     <Compile Include="Controllers\CitationsController.cs" />
     <Compile Include="Controllers\CollectionItemsController.cs" />
     <Compile Include="Controllers\CollectionsController.cs" />
+    <Compile Include="Controllers\EvidenceController - Copy %282%29.cs" />
     <Compile Include="Controllers\EvidenceController - Copy.cs" />
     <Compile Include="Controllers\EvidenceController.cs" />
     <Compile Include="Controllers\EvidencesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OnboardingController.cs" />
     <Compile Include="Controllers\SearchLogsController.cs" />
     <Compile Include="Controllers\SourcesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202510161625176_mot.cs" />
-    <Compile Include="Migrations\202510161625176_mot.Designer.cs">
-      <DependentUpon>202510161625176_mot.cs</DependentUpon>
+    <Compile Include="Migrations\202510230512420_InitialCreate.cs" />
+    <Compile Include="Migrations\202510230512420_InitialCreate.Designer.cs">
+      <DependentUpon>202510230512420_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202510211708234_hai.cs" />
-    <Compile Include="Migrations\202510211708234_hai.Designer.cs">
-      <DependentUpon>202510211708234_hai.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202510220631247_ba.cs" />
-    <Compile Include="Migrations\202510220631247_ba.Designer.cs">
-      <DependentUpon>202510220631247_ba.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202510220943391_bon.cs" />
-    <Compile Include="Migrations\202510220943391_bon.Designer.cs">
-      <DependentUpon>202510220943391_bon.cs</DependentUpon>
+    <Compile Include="Migrations\202510251514248_a.cs" />
+    <Compile Include="Migrations\202510251514248_a.Designer.cs">
+      <DependentUpon>202510251514248_a.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -837,6 +831,8 @@
     <Content Include="Views\Evidence\Index - Copy %282%29.cshtml" />
     <Content Include="Views\Shared\_Pagination.cshtml" />
     <Content Include="Views\Shared\_AiSuggestions.cshtml" />
+    <Content Include="Views\Onboarding\Index.cshtml" />
+    <Content Include="Views\Shared\_UserInterests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -867,20 +863,6 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.0.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202510161625176_mot.resx">
-      <DependentUpon>202510161625176_mot.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202510211708234_hai.resx">
-      <DependentUpon>202510211708234_hai.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202510220631247_ba.resx">
-      <DependentUpon>202510220631247_ba.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202510220943391_bon.resx">
-      <DependentUpon>202510220943391_bon.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="assets\vendor\chart.js\controllers\controller.bar.d.ts" />
@@ -976,6 +958,14 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202510230512420_InitialCreate.resx">
+      <DependentUpon>202510230512420_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510251514248_a.resx">
+      <DependentUpon>202510251514248_a.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

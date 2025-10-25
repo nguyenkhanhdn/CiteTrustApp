@@ -5,14 +5,15 @@
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<CiteTrustApp.Models.CTSDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<CiteTrustApp.Models.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            ContextKey = "CiteTrustApp.Models.ApplicationDbContext";
         }
 
-        protected override void Seed(CiteTrustApp.Models.CTSDbContext context)
+        protected override void Seed(CiteTrustApp.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

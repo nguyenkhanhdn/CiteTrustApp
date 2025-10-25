@@ -5,7 +5,9 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
-
+.site_name {
+    color: #94c045 !important;
+}
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/

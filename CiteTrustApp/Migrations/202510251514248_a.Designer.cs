@@ -7,13 +7,13 @@ namespace CiteTrustApp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class ba : IMigrationMetadata
+    public sealed partial class a : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ba));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(a));
         
         string IMigrationMetadata.Id
         {
-            get { return "202510220631247_ba"; }
+            get { return "202510251514248_a"; }
         }
         
         string IMigrationMetadata.Source

@@ -8,8 +8,9 @@
     var currentPage = ViewBag.Page as int? ?? 1;
     var pageSize = ViewBag.PageSize as int? ?? 12;
     var totalCount = ViewBag.TotalCount as int? ?? 0;
-}
 
+    var suggestionVm = ViewBag.SuggestionVm as CiteTrustApp.Models.SuggestionViewModel;
+}
 <section id="breadcrumbs" class="breadcrumbs">
     <div class="breadcrumb-hero">
         <div class="container">
@@ -47,6 +48,18 @@
             </div>
         </div>
     </div>
+
+    @* User interests + AI suggestions partial:
+        - If controller provided ViewBag.SuggestionVm, render server-side.
+        - Otherwise a container will be populated by AJAX calling Evidence/Suggest. *@
+    @if (suggestionVm != null)
+    {
+        @Html.Partial("_UserInterests", suggestionVm)
+    }
+    else
+    {
+        <div id="userInterestsContainer"></div>
+    }
 
     <div id="results" class="row">
         @foreach (var ev in Model)
@@ -96,6 +109,19 @@
             });
     }
 
+    function loadSuggestions() {
+        // If server already rendered suggestions, container may be empty; still attempt to refresh via AJAX.
+        var categoryId = $('.category-btn.active').data('category') || '';
+        $.get('@Url.Action("Suggest", "Evidence")', { max: 5, categoryId: categoryId })
+            .done(function (html) {
+                // if partial returned HTML, inject into container (or replace existing partial)
+                $('#userInterestsContainer').html(html);
+            })
+            .fail(function () {
+                // silently ignore failures
+            });
+    }
+
     // debounce input
     $('#qInput').on('input', function () {
         clearTimeout(searchTimeout);
@@ -110,6 +136,7 @@
         $('.category-btn').removeClass('active btn-primary').addClass('btn-outline-secondary');
         $(this).removeClass('btn-outline-secondary').addClass('active btn-primary');
         performSearch(1);
+        loadSuggestions(); // refresh suggestions when user selects a different category
     });
 
     // pagination click (delegated)
@@ -180,6 +207,10 @@
             // initialize - highlight "Tất cả" button
             $('#categoryButtons .category-btn').first().addClass('active btn-primary').removeClass('btn-outline-secondary');
 
+            // Load suggestions on initial page load (only if server didn't render)
+            if ($('#userInterestsContainer').length) {
+                loadSuggestions();
+            }
 
         })();
     </script>
@@ -198,25 +229,25 @@
             align-items: center;
         }
 
-        #analysisModal .modal-header .modal-title {
-            margin: 0;
-        }
+            #analysisModal .modal-header .modal-title {
+                margin: 0;
+            }
 
-        #analysisModal .modal-header .close, .close {
-            position: absolute;
-            right: 1rem;
-            top: 0.75rem;
-            border: none;
-            background: transparent;
-            font-size: 1.25rem;
-            line-height: 1;
-            padding: 0.25rem;
-            color: inherit;
-        }
+            #analysisModal .modal-header .close, .close {
+                position: absolute;
+                right: 1rem;
+                top: 0.75rem;
+                border: none;
+                background: transparent;
+                font-size: 1.25rem;
+                line-height: 1;
+                padding: 0.25rem;
+                color: inherit;
+            }
 
-        #analysisModal .modal-header .close:focus, .close:focus {
-            outline: solid;
-            box-shadow: none;
-        }
+                #analysisModal .modal-header .close:focus, .close:focus {
+                    outline: solid;
+                    box-shadow: none;
+                }
     </style>
 }
