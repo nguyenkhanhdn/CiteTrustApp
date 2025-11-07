@@ -1,4 +1,5 @@
 ﻿using CiteTrustApp.Models;
+using CiteTrustApp.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
@@ -12,7 +13,7 @@ namespace CiteTrustApp.Controllers
     public class HomeController : Controller
     {
         private readonly AcademicEvidenceModel _db = new AcademicEvidenceModel();
-
+        private readonly CTSDbContext db = new CTSDbContext();
         public ActionResult Index()
         {
             // If user authenticated and has interests, show simple suggestions
@@ -66,6 +67,15 @@ namespace CiteTrustApp.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        public ActionResult TrainModel()
+        {
+            MLRecommendationService ml = new MLRecommendationService(db,null);
+            ml.TrainMatrixFactorization();
+            ViewBag.Message = "Training model ...";
 
             return View();
         }

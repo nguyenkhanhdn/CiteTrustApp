@@ -11,12 +11,23 @@ namespace CiteTrustApp.Models
         public CTSDbContext() : base("name=CTSDbContext")
         {
         }
-        public DbSet<Source> Sources { get; set; }
-        public DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Source> Sources { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Evidence> Evidences { get; set; }
 
-        public DbSet<Evidence> Evidences { get; set; }
+        // Ensure these DbSet properties exist for the recommendation service
+        public virtual DbSet<Collection> Collections { get; set; }
+        public virtual DbSet<CollectionItem> CollectionItems { get; set; }
+
         // Added to support logging user searches and basic user lookup
-        public DbSet<User> Users { get; set; }
-        public DbSet<SearchLog> SearchLogs { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<SearchLog> SearchLogs { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // preserve any existing configuration
+        }
     }
 }
