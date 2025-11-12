@@ -11,24 +11,24 @@
                     <div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
                         <div class="count-box py-5">
                             <i class="bi bi-emoji-smile"></i>
-                            <span data-purecounter-start="0" data-purecounter-end="65" class="purecounter">0</span>
-                            <p>Happy Clients</p>
+                            <span data-purecounter-start="0" data-purecounter-end="@ViewBag.EvidenceCount" class="purecounter">0</span>
+                            <p>Số bằng chứng khoa học</p>
                         </div>
                     </div>
 
                     <div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
                         <div class="count-box py-5">
                             <i class="bi bi-journal-richtext"></i>
-                            <span data-purecounter-start="0" data-purecounter-end="85" class="purecounter">0</span>
-                            <p>Projects</p>
+                            <span data-purecounter-start="0" data-purecounter-end="@ViewBag.CategoryCount" class="purecounter">0</span>
+                            <p>Số thể loại</p>
                         </div>
                     </div>
 
                     <div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
                         <div class="count-box pb-5 pt-0 pt-lg-5">
                             <i class="bi bi-clock"></i>
-                            <span data-purecounter-start="0" data-purecounter-end="27" class="purecounter">0</span>
-                            <p>Years of experience</p>
+                            <span data-purecounter-start="0" data-purecounter-end="@ViewBag.CitationCount" class="purecounter">0</span>
+                            <p>Tổng lượt trích dẫn</p>
                         </div>
                     </div>
 
@@ -43,42 +43,59 @@
                 </div>
             </div>
         </div>
+    </div>
+</section>
 
-        <div class="row">
+<section id="about" class="about">
+    <div class="container">
 
-            <div class="col-lg-6 video-box align-self-baseline position-relative">
-                <img src="~/assets/img/slide02.png" class="img-fluid" alt="">
-                <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox play-btn mb-4"></a>
-            </div>
-
-            <div class="col-lg-6 pt-3 pt-lg-0 content">
-                <h3>🌐 Ngân hàng Bằng chứng Học thuật – Nơi khởi nguồn của tri thức đáng tin cậy</h3>
-                <p class="fst-italic">
-                    Trong thời đại bùng nổ thông tin, việc tìm kiếm dẫn chứng khoa học và số liệu đáng tin cậy cho bài viết hay bài thuyết trình trở nên quan trọng hơn bao giờ hết. Ngân hàng Bằng chứng Học thuật (Academic Evidence Bank) ra đời nhằm mang đến cho học sinh, sinh viên và giáo viên một không gian học thuật hiện đại, thông minh và chính xác.
-
-                </p>
+        <!-- Mục 1 -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h4 class="card-title text-info fw-bold">Giới thiệu về trích dẫn khoa học</h4>
                 <p>
-                    Tại đây, người dùng có thể dễ dàng tra cứu các bằng chứng, trích dẫn, thống kê và nguồn tư liệu khoa học được chọn lọc từ các báo cáo, tạp chí, sách và website uy tín. Mỗi dẫn chứng đều có nguồn gốc rõ ràng, được định dạng theo chuẩn trích dẫn quốc tế, giúp tiết kiệm thời gian và nâng cao tính học thuật cho mọi bài viết.
+                    <strong>Trích dẫn khoa học (Scientific Citation)</strong> là việc ghi nhận và dẫn nguồn những thông tin, ý tưởng,
+                    dữ liệu hoặc kết quả nghiên cứu mà người viết sử dụng từ các công trình, tài liệu hay tác giả khác trong bài viết của mình.
                 </p>
-                <p>
-                    Không chỉ dừng lại ở việc tra cứu, hệ thống còn cho phép người dùng tạo bộ sưu tập cá nhân, lưu trữ và trích dẫn nhanh, hỗ trợ hiệu quả trong học tập, nghiên cứu và sáng tạo nội dung.
-                </p>
-                <p>
-                    👉 Ngân hàng Bằng chứng Học thuật – Tra cứu chuẩn xác, trích dẫn dễ dàng, nâng tầm tri thức!
-                </p>
-                <h3>Các tính năng của hệ thống</h3>
+                <p>Việc trích dẫn giúp:</p>
                 <ul>
-                    <li><i class="bx bx-check-double"></i> Quản lý dữ liệu dẫn chứng</li>
-                    <li><i class="bx bx-check-double"></i> Chức năng tìm kiếm thông minh</li>
-                    <li><i class="bx bx-check-double"></i> Trích dẫn học thuật</li>
-                    <li><i class="bx bx-check-double"></i> Cá nhân hóa & Bộ sưu tập</li>
-                    <li><i class="bx bx-check-double"></i> Tích hợp AI</li>
-
+                    <li><strong>Khẳng định độ tin cậy:</strong> Người đọc có thể kiểm chứng nguồn thông tin.</li>
+                    <li><strong>Thể hiện sự tôn trọng trí tuệ:</strong> Ghi nhận công lao của người khác.</li>
+                    <li><strong>Tránh đạo văn:</strong> Một yêu cầu bắt buộc trong học thuật.</li>
+                    <li><strong>Tăng giá trị khoa học:</strong> Khi bài viết có đối chiếu với các nguồn nghiên cứu uy tín.</li>
                 </ul>
-              
-            </div>
+                <div class="alert alert-secondary mt-3" role="alert">
+                    <strong>Ghi nhớ:</strong> Trích dẫn thể hiện tư duy khoa học, trung thực và minh bạch trong nghiên cứu.
+                </div>
+                <a href="~/Home/About" class="btn-green">Chi tiết</a>
 
+            </div>
         </div>
 
+
     </div>
-</section><!-- End About Section -->
+</section>
+@section Styles {
+
+    <style>
+        .btn-green {
+            display: inline-block;
+            background-color: #94c045; /* màu xanh lá theo yêu cầu */
+            color: #fff; /* màu chữ trắng */
+            padding: 8px 18px;
+            border-radius: 25px; /* bo tròn góc */
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+            .btn-green:hover {
+                background-color: #7ca339; /* màu đậm hơn khi hover */
+                color: #fff;
+                text-decoration: none;
+                transform: translateY(-2px); /* hiệu ứng nổi nhẹ khi hover */
+                box-shadow: 0 4px 10px rgba(148, 192, 69, 0.4);
+            }
+    </style>
+}

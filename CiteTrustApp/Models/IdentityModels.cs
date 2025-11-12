@@ -29,6 +29,8 @@ namespace CiteTrustApp.Models
         {
         }
 
+        public DbSet<MyCitation> MyCitations { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

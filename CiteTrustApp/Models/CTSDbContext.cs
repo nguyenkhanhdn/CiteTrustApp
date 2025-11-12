@@ -15,6 +15,7 @@ namespace CiteTrustApp.Models
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Evidence> Evidences { get; set; }
 
+        public virtual DbSet<Citation>  Citations { get; set; }
         // Ensure these DbSet properties exist for the recommendation service
         public virtual DbSet<Collection> Collections { get; set; }
         public virtual DbSet<CollectionItem> CollectionItems { get; set; }

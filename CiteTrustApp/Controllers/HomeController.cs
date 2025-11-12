@@ -54,6 +54,22 @@ namespace CiteTrustApp.Controllers
                 }
             }
 
+            // Provide counts for the home page counters
+            try
+            {
+                ViewBag.EvidenceCount = db.Evidences.Count();
+                ViewBag.CategoryCount = db.Categories.Count();
+                // CTSDbContext doesn't expose Citations DbSet directly; count via Evidence -> Citations
+                ViewBag.CitationCount = db.Evidences.SelectMany(e => e.Citations).Count();
+            }
+            catch (Exception)
+            {
+                // Fallback to zeros if DB access fails
+                ViewBag.EvidenceCount = 0;
+                ViewBag.CategoryCount = 0;
+                ViewBag.CitationCount = 0;
+            }
+
             return View();
         }
 
@@ -73,7 +89,7 @@ namespace CiteTrustApp.Controllers
 
         public ActionResult TrainModel()
         {
-            MLRecommendationService ml = new MLRecommendationService(db,null);
+            MLRecommendationService ml = new MLRecommendationService(db, null);
             ml.TrainMatrixFactorization();
             ViewBag.Message = "Training model ...";
 

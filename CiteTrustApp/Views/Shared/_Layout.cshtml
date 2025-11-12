@@ -36,24 +36,13 @@
         <div class="container d-flex align-items-center justify-content-between">
 
             <div class="logo">
-                
+
                 <h1 class="text-light"><a href="~/Home/Index"><img src="~/assets/img/cite.png" class="img-fluid"></a> &nbsp;<a class="site_name" href="~/Home/Index">ACADEMIC EVIDENCE BANK</a></h1>
                 <!-- Uncomment below if you prefer to use an image logo -->
-                
+
             </div>
 
-            <nav id="navbar" class="navbar">
-                <ul>
-                    <li><a class="active" href="~/Home/Index">Trang chủ</a></li>
-                    <li><a href="~/Home/About">Giới thiệu</a></li>
-                    <li><a href="~/Evidence/Index">Tìm kiếm</a></li>
-                    <li><a href="~/Home/Contact">Contact</a></li>
-                    <li><span style="padding-left:15px;color:darkgrey;">|</span></li>
-                    @Html.Partial("_LoginPartial")
-                    @*<li><a class="getstarted" href="~/Home/About">Giới thiệu</a></li>*@
-                </ul>
-                <i class="bi bi-list mobile-nav-toggle"></i>
-            </nav>
+            @Html.Partial("_Navbar")
         </div>
     </header><!-- End Header -->
     <!-- ======= Hero Section ======= -->
@@ -94,10 +83,10 @@
                     <div class="col-lg-3 col-md-6 footer-contact">
                         <h4>Liên hệ</h4>
                         <p>
-                            Xuân <br>
-                            Nhật <br>
+                            Trần Quang Xuân <br>
+                            Nguyễn Minh Nhật <br>
                             Trường THCS Lê Độ <br>
-                            <strong>Phone:</strong> +1 5589 55488 55<br>
+                            <strong>Phone:</strong> 0905 023456<br>
                             <strong>Email:</strong> info@aeb.com<br>
                         </p>
 
@@ -114,8 +103,8 @@
                         <h4>Đăng ký bản tin</h4>
                         <p>
                             Hãy tham gia cộng đồng Ngân hàng Bằng chứng Học thuật để nhận những bản tin cập nhật nhất về dẫn chứng, thống kê và xu hướng học thuật.
-                            
-                                               <br/>
+
+                            <br />
                             👉 Đăng ký ngay hôm nay – Mỗi bản tin, một bước tiến tri thức!
                         </p>
                         <form action="" method="post">
@@ -149,7 +138,7 @@
     <script src="~/assets/vendor/waypoints/noframework.waypoints.js"></script>
     <!-- Template Main JS File -->
     <script src="~/assets/js/evidence.js"></script>
-
+    <script src="~/Scripts/citation-save.js"></script>
     <script src="~/assets/js/main02.js"></script>
     @RenderSection("scripts", required: false)
 </body>

@@ -64,11 +64,11 @@
                         @{
                             if (actionName.ToLower() == "about")
                             {
-                                <a href="~/Home/About" class="active">Giới thiệu</a>
+                                <a href="~/Home/About" class="active">Hướng dẫn</a>
                             }
                             else
                             {
-                                <a href="~/Home/About">Giới thiệu</a>
+                                <a href="~/Home/About">Hướng dẫn</a>
                             }
                         }
 
@@ -89,20 +89,29 @@
 
                     </li>
                     <li>
-
-
                         @{
                             if (actionName.ToLower() == "contact")
                             {
-                                <a href="~/Home/Contact" class="active">Contact</a>
+                                <a href="~/Home/Contact" class="active">Liên hệ</a>
                             }
                             else
                             {
-                                <a href="~/Home/Contact">Contact</a>
+                                <a href="~/Home/Contact">Liên hệ</a>
                             }
                         }
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("My", "Citations")">Trích dẫn của tôi</a>
+                    </li>
 
+                    @if (User?.Identity?.IsAuthenticated == true)
+                    {
+                        <li><a href="~/Evidence/Create">Đóng góp</a></li>
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li><a href="~/Admin/Index">Quản lý</a></li>
+                        }
+                    }
 
                     <li><span style="padding-left:15px;color:darkgrey;">|</span></li>
                     @Html.Partial("_LoginPartial")
@@ -198,6 +207,7 @@
     <script src="~/assets/vendor/waypoints/noframework.waypoints.js"></script>
     <!-- Template Main JS File -->
     <script src="~/assets/js/evidence.js"></script>
+    <script src="~/Scripts/citation-save.js"></script>
     @*<script src="~/assets/js/analysis_model.js"></script>*@
     <script src="~/assets/js/main02.js"></script>
     @RenderSection("scripts", required: false)

@@ -1,0 +1,77 @@
+﻿<!--@model IEnumerable<CiteTrustApp.Models.Evidence>
+@{
+    ViewBag.Title = "Tìm kiếm dẫn chứng";
+    var categories = ViewBag.Categories as List<CiteTrustApp.Models.Category> ?? new List<CiteTrustApp.Models.Category>();
+    var sources = ViewBag.Sources as List<CiteTrustApp.Models.Source> ?? new List<CiteTrustApp.Models.Source>();
+    Layout = "~/Views/Shared/_LayoutNoHero.cshtml";
+
+    var currentPage = ViewBag.Page as int? ?? 1;
+    var pageSize = ViewBag.PageSize as int? ?? 12;
+    var totalCount = ViewBag.TotalCount as int? ?? 0;
+
+    var suggestionVm = ViewBag.SuggestionVm as CiteTrustApp.Models.SuggestionViewModel;
+}
+<section id="breadcrumbs" class="breadcrumbs">
+    <div class="breadcrumb-hero">
+        <div class="container">
+            <div class="breadcrumb-hero">
+                <h2>Ngân hàng dẫn chứng học thuật</h2>
+            </div>
+        </div>
+    </div>
+
+</section><!-- End Breadcrumbs -->
+<!--<div class="container my-4">
+    <div class="card p-4 mb-4">
+        <div class="row">
+            <div class="col-md-8 mb-2">
+                <input id="qInput" class="form-control" placeholder="Tìm kiếm dẫn chứng, tác giả..." />
+            </div>
+            <div class="col-md-4 mb-2">
+                <select id="sourceSelect" class="form-control">
+                    <option value="">Tất cả nguồn</option>
+                    @foreach (var s in sources)
+                    {
+                        <option value="@s.Id">@s.Title</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <div id="categoryButtons" class="d-flex flex-wrap">
+                <button class="btn btn-sm btn-primary mr-2 mb-2 category-btn" data-category="">Tất cả</button>
+                @foreach (var c in categories)
+                {
+                    <button class="btn btn-sm btn-outline-secondary mr-2 mb-2 category-btn" data-category="@c.Id">@c.Name</button>
+                }
+            </div>
+        </div>
+    </div>-->
+@* User interests + AI suggestions partial:
+    - If controller provided ViewBag.SuggestionVm, render server-side.
+    - Otherwise a container will be populated by AJAX calling Evidence/Suggest. *@
+@if (suggestionVm != null)
+{
+    @Html.Partial("_UserInterests", suggestionVm)
+}
+else
+{
+    <div id="userInterestsContainer"></div>
+}
+
+<div id="results" class="row">
+    @foreach (var ev in Model)
+    {
+        @Html.Partial("_EvidenceCard", ev)
+    }
+</div>
+
+<div id="noResults" class="alert alert-light" style="display:@(totalCount == 0 ? "block" : "none")">
+    Không tìm thấy kết quả.
+</div>
+
+<div id="paginationContainer" class="mt-3">
+    @Html.Partial("_Pagination")
+</div>
+</div>-->

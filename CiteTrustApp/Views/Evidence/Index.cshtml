@@ -49,9 +49,7 @@
         </div>
     </div>
 
-    @* User interests + AI suggestions partial:
-        - If controller provided ViewBag.SuggestionVm, render server-side.
-        - Otherwise a container will be populated by AJAX calling Evidence/Suggest. *@
+    @* User interests + AI suggestions partial *@
     @if (suggestionVm != null)
     {
         @Html.Partial("_UserInterests", suggestionVm)
@@ -76,7 +74,115 @@
         @Html.Partial("_Pagination")
     </div>
 </div>
+
+@* Modal used to load the AddCitation partial *@
+<div class="modal fade" id="addCitationModal" tabindex="-1" role="dialog" aria-labelledby="addCitationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCitationModalLabel">Đóng góp trích dẫn</h5>
+                <button type="button" class="close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center p-4 text-muted">Đang tải...</div>
+            </div>
+        </div>
+    </div>
+</div>
 @section scripts {
+
+
+    <script>
+    (function () {
+        // Open add-citation modal and load partial via AJAX
+        $('body').on('click', '.add-citation-btn', function (e) {
+            e.preventDefault();
+            var id = $(this).data('evidence-id');
+            if (!id) return;
+            var url = '@Url.Action("AddCitation", "Evidence")';
+            $('#addCitationModal .modal-body').html('<div class="text-center p-4"><div class="spinner-border" role="status"></div><div class="mt-2">Đang tải...</div></div>');
+            // Use GET to fetch partial
+            $.get(url, { evidenceId: id })
+                .done(function (html) {
+                    $('#addCitationModal .modal-body').html(html);
+                    // Show bootstrap modal (Bootstrap 4/5 compatible)
+                    var modalEl = document.getElementById('addCitationModal');
+                    if (modalEl) {
+                        // Bootstrap 5:
+                        if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                            var m = new bootstrap.Modal(modalEl);
+                            m.show();
+                        } else {
+                            // fallback for older bootstrap using jQuery
+                            $('#addCitationModal').modal('show');
+                        }
+                    }
+                })
+                .fail(function () {
+                    $('#addCitationModal .modal-body').html('<div class="text-danger p-3">Không tải được form. Vui lòng thử lại sau.</div>');
+                });
+        });
+
+        // Delegate submit handler for dynamically loaded form (AJAX)
+        $('body').on('submit', '#addCitationForm', function (e) {
+            e.preventDefault();
+            var $form = $(this);
+            var action = $form.attr('action') || '@Url.Action("AddCitation", "Evidence")';
+            var data = $form.serialize();
+            // show loading state
+            var $btn = $form.find('button[type="submit"]');
+            $btn.prop('disabled', true).text('Đang lưu...');
+            $.post(action, data)
+                .done(function (resp) {
+                    if (resp && resp.success) {
+                        // close modal and notify
+                        // try Bootstrap 5 API
+                        var modalEl = document.getElementById('addCitationModal');
+                        if (modalEl) {
+                            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                                var modal = bootstrap.Modal.getInstance(modalEl);
+                                if (modal) modal.hide();
+                            } else {
+                                $('#addCitationModal').modal('hide');
+                            }
+                        }
+                        alert(resp.message || 'Trích dẫn đã được lưu.');
+                        // optional: refresh page to show new citation
+                        location.reload();
+                    } else {
+                        alert(resp && resp.message ? resp.message : 'Lỗi khi lưu trích dẫn.');
+                    }
+                })
+                .fail(function () {
+                    alert('Lỗi khi gửi trích dẫn.');
+                })
+                .always(function () {
+                    $btn.prop('disabled', false).text('Lưu trích dẫn');
+                });
+        });
+
+        // Optional: copy-citation handler (if any elements use .copy-citation)
+        $('body').on('click', '.copy-citation', function () {
+            var text = $(this).data('citation') || '';
+            if (!text) return;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text);
+            } else {
+                var ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); } catch (e) { }
+                document.body.removeChild(ta);
+            }
+            $(this).text('Đã chép');
+            var btn = $(this);
+            setTimeout(function () { btn.text('Chép trích dẫn'); }, 1500);
+        });
+
+    })();
+    </script>
+
     <script>
 
         function doClose() {

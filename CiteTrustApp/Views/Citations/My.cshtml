@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CiteTrustApp.Models.MyCitation>
+@{
+    ViewBag.Title = "Trích dẫn của tôi";
+    Layout = "~/Views/Shared/_LayoutNoHero.cshtml";
+}
+
+<div class="container my-4">
+    <h2 class="mb-3">Trích dẫn của tôi</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">Bạn chưa lưu trích dẫn nào.</div>
+    }
+    else
+    {
+        <div class="list-group">
+            @foreach (var item in Model)
+            {
+                <div class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <small class="text-muted">@item.CreatedAt.ToLocalTime().ToString("g")</small>
+                        <form method="post" action="@Url.Action("Delete", "Citations")" onsubmit="return confirm('Xóa trích dẫn này?');">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-link text-danger btn-sm">Xóa</button>
+                        </form>
+                    </div>
+                    <div class="mt-2 citation-html">@Html.Raw(item.Html)</div>
+                    <div class="mt-2">
+                        <button class="btn btn-outline-primary btn-sm copy-citation-btn" data-citation-id="@item.Id">Sao chép</button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script src="~/Scripts/citation-save.js"></script>
+}

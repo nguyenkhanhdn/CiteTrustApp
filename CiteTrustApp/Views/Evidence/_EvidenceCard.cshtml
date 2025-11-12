@@ -42,17 +42,31 @@
             {
                 <span class="badge badge-pill badge-info">@Model.Category.Name</span>
             }
-            <div class="evidence-card" data-evidence-id="@Model.Id">
+
+        <div class="citation-block">
+            <div class="citation-html evidence-card" data-evidence-id="@Model.Id">
                 <blockquote class="blockquote mt-2">
-                    <p class="mb-0 evidence-content">@Html.Raw(Html.Encode(excerpt))</p>
+                    <p class="mb-0 evidence-content">@Html.Raw(excerpt)</p>
+                    <footer class="evidence-citation blockquote-footer mt-2">@Html.Raw(Html.Encode(citationText))</footer>
+                </blockquote>
+            </div>
+            <button class="btn btn-sm btn-outline-secondary copy-citation-btn" data-citation="@Html.Raw(HttpUtility.HtmlEncode(citationText))">Sao chép trích dẫn</button>
+            <button type="button" class="btn btn-primary btn-sm analysis-button" data-evidence-id="@Model.Id">Phân tích với AI</button>
+        </div>
+            <!--<div class="evidence-card" data-evidence-id="@Model.Id">
+                <blockquote class="blockquote mt-2">
+                    <p class="mb-0 evidence-content">@Html.Raw(excerpt)</p>
                     <footer class="evidence-citation blockquote-footer mt-2">@Html.Raw(Html.Encode(citationText))</footer>
                 </blockquote>
 
                 <div class="evidence-actions">
-                    <button type="button" class="btn btn-outline-secondary copy-citation">Chép trích dẫn</button>
-                    <button type="button" class="btn btn-primary btn-sm analysis-button" data-evidence-id="@Model.Id">Phân tích với AI</button>
-                </div>
-            </div>
+
+
+                    <button type="button" class="btn btn-outline-secondary copy-citation" data-citation="@Html.Raw(HttpUtility.HtmlEncode(citationText))">Chép trích dẫn</button>
+                    <button type="button" class="btn btn-primary btn-sm analysis-button" data-evidence-id="@Model.Id">Phân tích với AI</button>-->
+                    @*<button type="button" class="btn btn-outline-success btn-sm add-citation-btn" data-evidence-id="@Model.Id">Đóng góp trích dẫn</button>*@
+                <!--</div>
+            </div>-->
         </div>
     </div>
 </div>
